@@ -1,0 +1,63 @@
+<div style="background:#E0DBDB;width:100%; height:100%;">
+  <div *ngIf="!showCardDetails" style="background:#E0DBDB;width:100%; height:auto;">
+    <div style="padding: 80px 0px 0px 80px;">
+      <div style="padding: 9px;font-weight: bold;">To Do App</div>
+      <div style="width: max-content;" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="dropList($event)">
+        <div class="example-box" *ngFor="let todoListTask of todoListTasks;let index = index;" cdkDrag>
+          <div class="container-class">
+            <div style="width: 50%;display: inline-block;">
+              {{todoListTask.cardName}}
+            </div>
+            <div style="display: inline; border: 1px solid #000000;padding: 3px;border-radius: 3px;" (click)="deleteList(index)">Delete this List
+            </div>
+            <div cdkDropList (cdkDropListDropped)="dropCard($event, index)">
+              <div (click)="updateCard(index, innerIndex)" class="example-box1" *ngFor="let card of todoListTask.cards; let innerIndex = index;" cdkDrag>
+                <div style="margin: 20px;" (click)="innerIndex(index)"> {{card.cardTitle}}</div>
+              </div>
+            </div>
+            <div style="padding-top: 25px;" (click)="addNewCard(index)">Add New Card...</div>
+          </div>
+        </div>
+        <div class="container-class1">
+          <div (click)="createList()">Add New List...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 100px;
+    height: calc(100% - 200px);" *ngIf="showCardDetails">
+    <div style="height: auto;width: 100%;background: #ffffff;border-radius: 10px;">
+      <div style="padding: 30px;">
+        <div> Card Title</div>
+        <div style="padding: 10px 0 30px;">
+          <span>
+            <textarea style=" width: 85%; height: 50px;border-radius: 3px;" [(ngModel)]='cardTitle' class="form-control" placeholder="Card title" cols="2"
+              rows="5"></textarea>
+          </span>
+          <span style="border: 1px solid #000000;padding: 3px;border-radius: 3px;float: right;" (click)="deleteCard()">Delete Card</span>
+        </div>
+        <div>
+          <span>
+            <textarea style=" width: 85%; height: 100px;border-radius: 3px;" [(ngModel)]='cardComment' class="form-control" placeholder="Enter your comments" cols="2"
+              rows="10"></textarea>
+          </span>
+          <span *ngIf="isAddCard" style="border: 1px solid #000000;padding: 3px;border-radius: 3px;float: right;" (click)="addCard()">Add Card</span>
+          <span *ngIf="isUpdateCard" style="border: 1px solid #000000;padding: 3px;border-radius: 3px;float: right;" (click)="addCard()">Update Card</span>
+        </div>
+        <div style="margin-top: 20px;">
+          <span style="border: 1px solid #000000;padding: 3px;border-radius: 3px;" (click)="addComment()">Add Comment
+          </span>
+        </div>
+        <div *ngFor="let comment of cardComments" style="margin: 20px 0;">
+          <div style="display: inline-block; width: 50%;">
+            {{comment}}
+          </div>
+          <div style="display: inline-block; width: 50%;">
+            {{currentDate}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>
